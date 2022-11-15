@@ -13,7 +13,7 @@ from helpers import *
 #from split_data import * 
 get_ipython().run_line_magic('load_ext', 'autoreload')
 get_ipython().run_line_magic('autoreload', '2')
-#from simpletransformers.classification import ClassificationModel, ClassificationArgs
+from simpletransformers.classification import ClassificationModel, ClassificationArgs
 import pandas as pd
 import nltk
 wn = nltk.WordNetLemmatizer()
@@ -37,8 +37,7 @@ ENGLISH_STOP_WORDS = nltk.corpus.stopwords.words('english')
 
 # Adding few extra stop word
 ENGLISH_STOP_WORDS = ENGLISH_STOP_WORDS + ['im', 'dont','dunno', 'cant','1', '2', '3', '4', '5', '6', '7'
-                                           , '8', '9', "'s", 'u', 'x','user','url','rt','lol','get','like','know',
-                                           'time','got','love','see','go','please','day','back','one']
+                                           , '8', '9', "'s", 'u', 'x','user','url','rt','lol']
 
 print(ENGLISH_STOP_WORDS)
 
@@ -90,7 +89,7 @@ def remove_digit(txt):
     return txt
 
 
-# In[11]:
+# In[10]:
 
 
 def clean_data(train_df):
