@@ -1,1 +1,0 @@
-# This file is in charge of running the best model on our test set and to generate the submission file
