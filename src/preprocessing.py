@@ -69,5 +69,3 @@ def clean_data(df):
     # df['text'] = df['text'].apply(lambda x : remove_digit(x))
     print("Remove digit DONE")
     return df
-
-
