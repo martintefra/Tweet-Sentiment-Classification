@@ -1,71 +1,73 @@
-# this file is in charge of preparing the data for the model
-
-#!/usr/bin/env python
-# coding: utf-8
-
-import matplotlib.pyplot as plt
-import pandas as pd
-import nltk
-from nltk.corpus import stopwords
-from collections import Counter
+#Basic Libraries
 import re
 import string
+import numpy as np 
+import pandas as pd
 
-nltk.download('punkt')
-nltk.download('wordnet')
-nltk.download('omw-1.4')
+#Data Processing Libraries
+import spacy
+from nltk.stem import WordNetLemmatizer
 
-pd.set_option('display.max_colwidth',100)
+#import the stopword list from the spacy library 
+sp = spacy.load('en_core_web_sm')
+#Counter appliation in order to improve the running 
+spacy_stopwords = list(sp.Defaults.stop_words)
+stop_words = spacy_stopwords + ['im', "i'm", 'dont','dunno', 'cant',"'s", 'u', 'x','user','url','rt','lol', '<user>', '<url>', '..','...']
+lemmatizer = WordNetLemmatizer()
 
-wn = nltk.WordNetLemmatizer()
+#cleaning "pipeline"  
+def clean_data(text, stopwords, lemmatization):
 
-# A word that is so common that there is no need to use it in a search
-ENGLISH_STOP_WORDS = stopwords.words('english')
-
-# Adding few extra stop word
-ENGLISH_STOP_WORDS = ENGLISH_STOP_WORDS + ['im', 'dont','dunno', 'cant','1', '2', '3', '4', '5', '6', '7'
-                                           , '8', '9', "'s", 'u', 'x','user','url','rt','lol']
-
-# Calculate the most common words used in the set of all tweets
-def get_most_common_words(txt,limit):
-    return Counter(txt.split()).most_common()[:limit]
-
-# Remove from tweets the punctuation and stop words (= a word that is so common that there is no need to use it in a search.)
-def clean_tweet(tweet):
-    tweet = "".join([w for w in tweet if w not in string.punctuation])
-    tokens = re.split('\W+', tweet)
-    tweet = [word for word in tokens if word not in ENGLISH_STOP_WORDS]
-    return tweet
-
-# Change any word belonging to the same word-family into a common word (changing/changes/changed.. ==> change)
-def lemmatization(token_tweet):
-    tweet = [wn.lemmatize(word) for word in token_tweet]
-    return tweet
-
-# Concatenate the tokennized tweet into a all text like at the beginning
-def concatenate(lst):
-    concatenate_tweet = ''
-    for elem in lst:
-        concatenate_tweet = concatenate_tweet + ' ' + elem
-    return concatenate_tweet
-
-def remove_digit(txt):
-    txt = ''.join([i for i in txt if not i.isdigit()])
-    return txt
+      #perform casefolding
+      text = text.casefold()
+      #remove different tags for instance "<user>,<url>" for each twitter
+      text = re.sub('<[^<]+?>','', text)
+      #remove digits for each twitter
+      text = ' '.join(text_ for text_ in text.split() if not text_.isdigit())
+      #remove punctuations for each twitter
+      text = ' '.join(text_ for text_ in text.split() if text_ not in string.punctuation)
+      #remove the tokens length less than 2 
+      text = ' '.join(text_ for text_ in text.split() if len(text)>2)
+      
+      if lemmatization :
+          #perform lemmatization
+          text = ' '.join(lemmatizer.lemmatize(text_)  for text_ in text.split() )
+      
+      if stopwords:
+          #remove the stopwords
+          text = ' '.join([word for word in text.split() if word not in stop_words])
+      return text
 
 
-def clean_data(df):
-    print("Inside clean_data")
-    df['text'] = df['text'].apply(lambda x : clean_tweet(x))
-    print("Clean_tweet DONE")
-    df['text'] = df['text'].apply(lambda x : lemmatization(x))
-    print("Lemmatization DONE")
-    df['text'] = df['text'].apply(lambda x : concatenate(x))
-    print("Concatenate DONE")
-    # df['text'] = df['text'].apply(lambda x : clean_tweet(x))
-    # print("Second clean tweet DONE")
-    # df['text'] = df['text'].apply(lambda x : concatenate(x))
-    # print("Second concatenate DONE")
-    # df['text'] = df['text'].apply(lambda x : remove_digit(x))
-    print("Remove digit DONE")
-    return df
+#Load the data and run the preprocessor pipeline 
+class Preprocessor:
+    def __init__(self):
+        """Init function
+        """
+    def load_data(preprocessed=True, directory="data"):
+        POS_DATASET = directory + "/train_pos.txt"
+        NEG_DATASET = directory + "/train_neg.txt"
+
+        #import the data
+        pos_data = pd.read_fwf(POS_DATASET, header=None, names=["tweets"])
+        pos_data["labels"] = 1
+        neg_data = pd.read_fwf(NEG_DATASET, header=None, names=["tweets"])
+        neg_data["labels"] = 0
+        data = pd.concat([pos_data, neg_data], ignore_index=True)
+        np.random.seed(500)
+        #shuffle the merge data
+        data = data.iloc[np.random.permutation(len(data))]
+        #remove the nan rows
+        data.dropna(subset = ["tweets"], inplace=True)
+        #remove the duplicates
+        data.drop_duplicates(subset = "tweets", keep = False, inplace = True)
+        #clean the data
+        data['tweets'] = data['tweets'].apply(lambda x : clean_data(x, stopwords=True,lemmatization=True))
+        
+        #remove empty lines if any  
+        data.dropna(subset = ["tweets"], inplace=True)
+
+        X = data['tweets'].values
+        y = data['labels'].values
+
+        return np.array(X), np.array(y)
