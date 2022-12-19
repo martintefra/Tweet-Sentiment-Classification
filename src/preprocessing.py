@@ -156,21 +156,34 @@ class Preprocessor:
     def __init__(self):
         """Init function
         """
-    def load_data(preprocessed=True, directory=DATA_PATH):
+    def load_data(directory=DATA_PATH, test=False):
         """Load the data
 
         Output:
             data: pandas dataframe with the tweets and labels
         """
-        POS_DATASET = directory + "/train_pos.txt"
-        NEG_DATASET = directory + "/train_neg.txt"
+        #Load testing data
+        if test:
+            TEST_DATASET = directory + "/test_data.txt"
 
-        #import the data
-        pos_data = pd.read_fwf(POS_DATASET, header=None, names=["tweets"])
-        pos_data["labels"] = 1
-        neg_data = pd.read_fwf(NEG_DATASET, header=None, names=["tweets"])
-        neg_data["labels"] = 0
-        data = pd.concat([pos_data, neg_data], ignore_index=True)
+            #import the data
+            with open(TEST_DATASET) as f:
+                data = f.readlines()
+                data = pd.DataFrame(data,columns=['tweets'])
+                data.tweets=data.tweets.apply(lambda x :x[x.find(',')+1:])
+                data["labels"] = None
+
+        #Load training data
+        else:
+            POS_DATASET = directory + "/train_pos.txt"
+            NEG_DATASET = directory + "/train_neg.txt"
+
+            #import the data
+            pos_data = pd.read_fwf(POS_DATASET, header=None, names=["tweets"])
+            pos_data["labels"] = 1
+            neg_data = pd.read_fwf(NEG_DATASET, header=None, names=["tweets"])
+            neg_data["labels"] = 0
+            data = pd.concat([pos_data, neg_data], ignore_index=True)
 
         global LEN_DATA 
         LEN_DATA = len(data)
