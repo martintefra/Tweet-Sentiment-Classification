@@ -21,7 +21,7 @@ from emot.emo_unicode import EMOTICONS_EMO
 #import wordninja in order to split the words
 import wordninja
 
-DATA_PATH = "../data/"
+DATA_PATH = "../data"
 
 #import the stopword list from the spacy library 
 sp = spacy.load('en_core_web_sm')
