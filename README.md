@@ -32,6 +32,9 @@ To run our code, open the run.ipynb file and select the model you want to test. 
 - contractions
 - spacy
 - nltk
+- simpletransformers
+- transformers
+- tokenizers
 
 ## Data
 
