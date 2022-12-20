@@ -30,6 +30,8 @@ To run our code, open the run.ipynb file and select the model you want to test. 
 - wordninja
 - emot
 - contractions
+- spacy
+- nltk
 
 ## Data
 
