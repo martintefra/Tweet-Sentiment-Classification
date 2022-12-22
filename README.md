@@ -66,20 +66,28 @@ are under the  data/ directory because we weren't able to import the full datase
 ## DEEPER OVERVIEW
 
 The data for this project consists of two sets of 1,250,000 tweets, one with positive emotions and one with negative emotions.
- 
- Preprocessing
- Embeddings 
- Final Model
+##Preprocessing phase
+```bash
+Casefolding
+Remove the single letters
+Lemmatization
+Remove stopwords
+Removing numbers as well the numbers within words by possible typos .
+Expand English contraction
+Manually expand some patterns
+Remove English punctuation
+Highlight sentiment words as positive and negative using two dataset(for additional information you can see the notebook)
+Remove the hashtag symbol and split the mergedwords in hashtags
+Transform emoticons into tokens/words
+```
 
-We have implemented four different models for this project:
+##Embeddings
+As you can check in the notebook "train embeddings and logistic regression.ipynb," our initial approach for the embeddings was to train and build our embeddings over our training set using various approaches like Word2Vec, Doc2Vec, FastText, or even GLoVe. However, in the end, we used the pretrained GloVe embeddings trained on 4 billion tweets, with 200 dimension embedding
 
-- Naive Bayes Classifier
-- Logistic Regression
-- RoBERTa
-- LSTM
+##Final Model
+For our final submission, we used six different LSTM models, some of which included convolutional layers and other dense layers. However, all of the models were built and trained for six epochs with a batch size of 1024, and the size of the embeddings was set to match that of the pretrained Glove embeddings. The results may be seen on aicrowd under the aymeric bacuet account (after some changes in the preprocessing step) or even under the lstojollari account (86,3%), which shows that we were able to achieve an accuracy of 87%.
 
 Evaluation
-
 We have evaluated our models using the Accuracy and F1 score metrics.
 
 ## How to use run.ipynb
