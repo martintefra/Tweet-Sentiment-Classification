@@ -47,7 +47,7 @@ def embedding_index_Glove():
     f.close()
     return embeddings_index
     
-def main(df_train,df_test,embeddings_index):
+def main(df_train,df_test):
     
     X_test = Preprocessor.load_data(preprocessed=True,Train_data=False)
     X_full = Preprocessor.load_data(preprocessed=True,Train_data=True)
