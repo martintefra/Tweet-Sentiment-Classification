@@ -199,6 +199,6 @@ class Preprocessor:
         #clean the data
         data['tweets'] = data['tweets'].apply(lambda x : clean_data(x, stopwords=True, lemmatization=True))
         #remove empty lines if any  
-        data.dropna(subset = ["tweets"], inplace=True)
+        #data.dropna(subset = ["tweets"], inplace=True)
 
         return data
