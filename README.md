@@ -1,31 +1,21 @@
 # Sentiment Analysis of Tweets
 
-The task of this competition is to predict if a tweet message used to contain a positive :) or negative :( smiley, by considering only the remaining text.
+## About the project
 
-As a baseline, we here provide sample code using word embeddings to build a text classifier system.
+This project aims to build a model to accurately predict the sentiment of tweets. Naive Bayes Classifier, Logistic Regression, RoBERTa, and a combination of multiple LSTM models are the four techniques we apply for the project.
 
-Submission system environment setup:
-
-1. The dataset is available from the AIcrowd page, as linked in the PDF project description
-
- Download the provided datasets `twitter-datasets.zip`.
-
-2. To submit your solution to the online evaluation system, we require you to prepare a “.csv” file of the same structure as sampleSubmission.csv (the order of the predictions does not matter, but make sure the tweet ids and predictions match). Your submission is evaluated according to the classification error (number of misclassified tweets) of your predictions.
-
-*Working with Twitter data:* We provide a large set of training tweets, one tweet per line. All tweets in the file train pos.txt (and the train pos full.txt counterpart) used to have positive smileys, those of train neg.txt used to have a negative smiley. Additionally, the file test data.txt contains 10’000 tweets without any labels, each line numbered by the tweet-id.
-
-Your task is to predict the labels of these tweets, and upload the predictions to AIcrowd. Your submission file for the 10’000 tweets must be of the form `<tweet-id>`, `<prediction>`, see `sampleSubmission.csv`.
-
-Note that all tweets have already been pre-processed so that all words (tokens) are separated by a single whitespace. Also, the smileys (labels) have been removed.
 
 ## Overview
 
-This project aims to build a model to accurately predict the emotions of tweets. We have implemented four different models: Naive Bayes Classifier, Logistic Regression, RoBERTa, and LSTM.:
+LSTM_models.py (LSTM Neural Networks Models) and run.ipynb the final notebook that generates the submissions, are the primary script/notebook for this project. We explored a number of classification techniques, including Naive Bayes, Logistic Regression, and RoBERTa (for the short datasets owing to a lack of resources), however the combination of LSTM neural networks produced the best accuracy for us. For the purpose of completeness, the other ML implementations are provided in this repository; read the README for additional information.
 
-## Getting Started
- 
+LSTM_models.py : is a script that trains the model using the preprocessed training dataset and generates predictions after preprocessing.py has been executed.
+run.ipynb: The final notebook contains the preprocessing, implementation, and fitting phases for each model, as well as the creation of the submission file that we post to aicrowd.
 
-To run our code, open the run.ipynb file and select the model you want to test. You will need to install the following libraries:
+All other and helpers scripts are stored in sc/ directory.
+
+## Dependencies
+To run our code from scripts or even faster by running the run.ipynb file you will need to install the following libraries:
 
 - wordninja
 - emot
@@ -36,6 +26,10 @@ To run our code, open the run.ipynb file and select the model you want to test. 
 - transformers
 - tokenizers
 
+
+
+wget https://nlp.stanford.edu/data/glove.twitter.27B.zip -O glove-stanford/glove.twitter.27B.zip
+unzip glove-stanford/glove.twitter.27B.zip -d glove-stanford/
 ## Data
 
 The data for this project consists of two sets of 1,250,000 tweets, one with positive emotions and one with negative emotions.
