@@ -15,7 +15,7 @@ run.ipynb: The final notebook contains the preprocessing, implementation, and fi
 All other and helpers scripts are stored in sc/ directory.
 
 ## Dependencies
-To run our code from scripts or even faster by running the run.ipynb file you will need to install the following libraries:
+To run our code from scripts or even σιμπλερ by running the run.ipynb file you will need to install the following libraries:
 
 - wordninja
 - emot
@@ -26,10 +26,11 @@ To run our code from scripts or even faster by running the run.ipynb file you wi
 - transformers
 - tokenizers
 
-
-
+The scripts and pynotebook assume that the train pos full and train neg full, as well as the 1.9GB of pretrained Glove embeddings as glove.twitter.27B.200d.txt, which you can download by the following commands,
 wget https://nlp.stanford.edu/data/glove.twitter.27B.zip -O glove-stanford/glove.twitter.27B.zip
 unzip glove-stanford/glove.twitter.27B.zip -d glove-stanford/
+are under the direction of data because we were able to import the full dataset to github. 
+
 ## Data
 
 The data for this project consists of two sets of 1,250,000 tweets, one with positive emotions and one with negative emotions.
