@@ -27,8 +27,8 @@ To run our code from scripts or even σιμπλερ by running the run.ipynb fil
 - tokenizers
 
 The scripts and pynotebook assume that the train pos full and train neg full, as well as the 1.9GB of pretrained Glove embeddings as glove.twitter.27B.200d.txt, which you can download by the following commands,
-wget https://nlp.stanford.edu/data/glove.twitter.27B.zip -O glove-stanford/glove.twitter.27B.zip
-unzip glove-stanford/glove.twitter.27B.zip -d glove-stanford/
+$ wget https://nlp.stanford.edu/data/glove.twitter.27B.zip -O glove-stanford/glove.twitter.27B.zip
+$ unzip glove-stanford/glove.twitter.27B.zip -d glove-stanford/
 are under the direction of data because we were able to import the full dataset to github. 
 
 ## Data
