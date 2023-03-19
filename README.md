@@ -15,7 +15,7 @@ run.ipynb: The final notebook contains the preprocessing, implementation, and fi
 All other and helpers scripts are stored in sc/ directory.
 
 ## Dependencies
-To run our code from scripts or even σιμπλερ by running the run.ipynb file you will need to install the following libraries:
+To run our code from scripts or even simpler by running the run.ipynb file you will need to install the following libraries:
 
 - wordninja
 - emot
